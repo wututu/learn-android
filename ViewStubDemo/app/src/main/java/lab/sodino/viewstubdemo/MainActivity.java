@@ -34,18 +34,26 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mHideButton = (Button) findViewById(R.id.hide_button);
 
         mViewStub = (ViewStub) findViewById(R.id.viewStub);
+
+        // 方式1
 //        View vInflate = mViewStub.inflate();
+//        initSubView(vInflate);
+
+        // 方式2
         mViewStub.setOnInflateListener(new OnInflateListener() {
             @Override
             public void onInflate(ViewStub stub, View inflated) {
-                Log.d(TAG, "viewStub onInflate done");
-                mSubButton = (Button) inflated.findViewById(R.id.sub_button);
-                mSubButton.setOnClickListener(MainActivity.this);
+                initSubView(inflated);
             }
         });
 
         mShowButton.setOnClickListener(this);
         mHideButton.setOnClickListener(this);
+    }
+
+    private void initSubView(View view) {
+        mSubButton = (Button) view.findViewById(R.id.sub_button);
+        mSubButton.setOnClickListener(MainActivity.this);
     }
 
     private void onShowButtonClick() {
