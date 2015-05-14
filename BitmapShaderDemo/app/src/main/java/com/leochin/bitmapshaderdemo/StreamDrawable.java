@@ -3,6 +3,7 @@ package com.leochin.bitmapshaderdemo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.ComposeShader;
 import android.graphics.Matrix;
@@ -15,23 +16,29 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.util.TypedValue;
 
 /**
  * Created by wenhao on 5/14/15.
  */
 public class StreamDrawable extends Drawable {
     private static final boolean USE_VIGNETTE = false;
+    private static final int STROKE_COLOR = Color.BLACK;
 
     private final float mCornerRadius;
     private final RectF mRect = new RectF();
     private final BitmapShader mBitmapShader;
     private final Paint mPaint;
     private final int mMargin;
+    private final int mStroke;
 
-    StreamDrawable(Bitmap bitmap, float cornerRadius, int margin) {
+    private final Paint mStrokePaint;
+
+    StreamDrawable(Bitmap bitmap, float cornerRadius, int margin, int stroke) {
 
         mCornerRadius = cornerRadius;
         mMargin = margin;
+        mStroke = stroke;
 
         mBitmapShader = new BitmapShader(bitmap,
                 Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
@@ -39,6 +46,12 @@ public class StreamDrawable extends Drawable {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setShader(mBitmapShader);
+
+        mStrokePaint = new Paint();
+        mStrokePaint.setAntiAlias(true);
+        mStrokePaint.setStyle(Paint.Style.STROKE);
+        mStrokePaint.setStrokeWidth(mStroke);
+        mStrokePaint.setColor(STROKE_COLOR);
     }
 
     @Override
@@ -70,6 +83,7 @@ public class StreamDrawable extends Drawable {
     public void draw(Canvas canvas) {
 //        canvas.drawRoundRect(mRect, mCornerRadius, mCornerRadius, mPaint); // 圆矩形
         canvas.drawCircle(mRect.centerX(), mRect.centerY(), mCornerRadius, mPaint); // 圆形
+        canvas.drawCircle(mRect.centerX(), mRect.centerY(), mCornerRadius, mStrokePaint);
     }
 
     @Override

@@ -15,9 +15,11 @@ import android.widget.TextView;
 public class StreamAdapter extends ArrayAdapter<StreamItem> {
     private static final int CORNER_RADIUS = 60; // dips
     private static final int MARGIN = 12; // dips
+    private static final int STROKE = 2; //dips
 
     private final int mCornerRadius;
     private final int mMargin;
+    private final int mStroke;
     private final LayoutInflater mInflater;
 
     public StreamAdapter(Context context) {
@@ -28,6 +30,7 @@ public class StreamAdapter extends ArrayAdapter<StreamItem> {
         //  TypedValue.applyDimension() 作用是将其他尺寸转换为px
         mCornerRadius = (int) (CORNER_RADIUS * density + 0.5f);
         mMargin = (int) (MARGIN * density + 0.5f);
+        mStroke = (int) (STROKE * density + 0.5f);
 
         mInflater = LayoutInflater.from(getContext());
     }
@@ -44,7 +47,7 @@ public class StreamAdapter extends ArrayAdapter<StreamItem> {
 
         StreamItem item = getItem(position);
 
-        StreamDrawable d = new StreamDrawable(item.mBitmap, mCornerRadius, mMargin);
+        StreamDrawable d = new StreamDrawable(item.mBitmap, mCornerRadius, mMargin, mStroke);
 
         view.setBackground(d);
 
