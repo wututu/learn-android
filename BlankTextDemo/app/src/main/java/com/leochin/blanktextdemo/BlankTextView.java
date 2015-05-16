@@ -18,6 +18,9 @@ import android.widget.TextView;
 
 /**
  * Created by wenhao on 5/16/15.
+ *
+ * NOTICE: BlankTextView不能设置background
+ *
  */
 public class BlankTextView extends TextView {
 

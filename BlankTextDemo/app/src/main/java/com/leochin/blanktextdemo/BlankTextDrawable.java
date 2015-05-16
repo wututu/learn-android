@@ -68,7 +68,6 @@ public class BlankTextDrawable extends Drawable {
         p.setTextSize(TEXT_SIZE);
         p.setTextAlign(Paint.Align.CENTER);
 
-//        c.drawText(text, mRect.left + mRect.centerX(), mRect.top + TEXT_SIZE, p);
         Paint.FontMetricsInt fontMetrics = p.getFontMetricsInt();
         float baseline = mRect.top + (mRect.bottom - mRect.top - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
         c.drawText(text, mRect.centerX(), baseline, p);
