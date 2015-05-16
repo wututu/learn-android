@@ -40,16 +40,6 @@ public class BlankTextDrawable extends Drawable {
 
         mBackgroundBitmap = makeBackground();
         mTextBitmap = makeText();
-
-//        Bitmap bm = Bitmap.createBitmap(new int[] { 0xFFFFFFFF, 0xFFCCCCCC,
-//                        0xFFCCCCCC, 0xFFFFFFFF }, 2, 2,
-//                Bitmap.Config.RGB_565);
-//
-//        BitmapShader mBG = new BitmapShader(bm,
-//                Shader.TileMode.REPEAT,
-//                Shader.TileMode.REPEAT);
-//        mPaint.setShader(mBG);
-
     }
 
     private Bitmap makeBackground() {
@@ -77,7 +67,11 @@ public class BlankTextDrawable extends Drawable {
         p.setColor(Color.YELLOW);
         p.setTextSize(TEXT_SIZE);
         p.setTextAlign(Paint.Align.CENTER);
-        c.drawText(text, mRect.left + mRect.centerX(), mRect.top + TEXT_SIZE, p);
+
+//        c.drawText(text, mRect.left + mRect.centerX(), mRect.top + TEXT_SIZE, p);
+        Paint.FontMetricsInt fontMetrics = p.getFontMetricsInt();
+        float baseline = mRect.top + (mRect.bottom - mRect.top - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
+        c.drawText(text, mRect.centerX(), baseline, p);
         return bm;
     }
 

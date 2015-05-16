@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main_layout"
     tools:context=".MainActivity">
 
     <ImageView
@@ -15,18 +14,16 @@
         android:id="@+id/blank_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world"
         android:padding="10dp"
-        android:background="#9966cc"
+        android:textSize="20sp"
         android:layout_centerInParent="true"/>
 
     <LinearLayout
         android:id="@+id/blank_layout"
         android:layout_width="100dp"
         android:layout_height="30dp"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:visibility="gone"
         android:orientation="vertical" />
 
 </RelativeLayout>

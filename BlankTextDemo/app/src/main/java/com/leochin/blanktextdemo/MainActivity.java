@@ -1,5 +1,6 @@
 package com.leochin.blanktextdemo;
 
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,8 +19,7 @@ public class MainActivity extends ActionBarActivity {
 
 
     @InjectView(R.id.blank_layout) LinearLayout mBlankLayout;
-    @InjectView(R.id.blank_text) TextView mBlankText;
-    @InjectView(R.id.main_layout) RelativeLayout mMainLayout;
+    @InjectView(R.id.blank_text) BlankTextView mBlankText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +27,9 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
-        Log.d("wenhao", this.getResources().getDisplayMetrics().density + "");
         mBlankLayout.setBackground(new BlankTextDrawable());
-//        mMainLayout.setBackground(new BlankTextDrawable());
+        mBlankText.setText("wenhao");
+        mBlankText.setBlankBackgroundColor(Color.YELLOW);
+        mBlankText.setCornerSize(20);
     }
 }
