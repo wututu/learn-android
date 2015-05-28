@@ -23,14 +23,13 @@ import android.widget.TextView;
  *
  */
 public class BlankTextView extends TextView {
-
     private Paint mPaint;
-    private RectF mRect;
+    private RectF mRectF;
 
     private Bitmap mBackgroundBitmap;
     private Bitmap mTextBitmap;
 
-    private int mBackgroundColor = 0xFF9966cc;
+    private int mBackgroundColor = 0xff9966cc; //0xc0ffffff
     private int mCornerSize = 10;
 
     public BlankTextView(Context context) {
@@ -50,45 +49,46 @@ public class BlankTextView extends TextView {
 
     private void init(){
         mPaint = new Paint();
-        mRect = new RectF();
+        mRectF = new RectF();
     }
 
     private Bitmap makeBackground() {
-        int width = (int) mRect.width();
-        int height = (int) mRect.height();
+        int width = (int) mRectF.width();
+        int height = (int) mRectF.height();
 
         Bitmap bm = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(bm);
         Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
 
         p.setColor(mBackgroundColor);
-        c.drawRoundRect(mRect, mCornerSize, mCornerSize, p);
+        c.drawRoundRect(mRectF, mCornerSize, mCornerSize, p);
         return bm;
     }
 
     private Bitmap makeText() {
         CharSequence text = getText();
-        int width = (int) mRect.width();
-        int height = (int) mRect.height();
-
+        int width = (int) mRectF.width();
+        int height = (int) mRectF.height();
 
         Bitmap bm = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(bm);
-        Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
+        //Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
+        Paint p = new Paint();
+        p.set(getPaint());
 
-        p.setColor(Color.YELLOW);
-        p.setTextSize(getTextSize());
+//        p.setColor(Color.YELLOW);
+//        p.setTextSize(getTextSize());
 
         Paint.FontMetricsInt fontMetrics = p.getFontMetricsInt();
-        float baseline = mRect.top + (mRect.bottom - mRect.top - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
+        float baseline = mRectF.top + (mRectF.bottom - mRectF.top - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
         p.setTextAlign(Paint.Align.CENTER);
-        c.drawText(text, 0, text.length(), mRect.centerX(), baseline, p);
+        c.drawText(text, 0, text.length(), mRectF.centerX(), baseline, p);
 
         return bm;
     }
 
     private void setup() {
-        mRect.set(0, 0, getWidth(), getHeight());
+        mRectF.set(0, 0, getWidth(), getHeight());
 
         mBackgroundBitmap = makeBackground();
         mTextBitmap = makeText();
@@ -96,10 +96,10 @@ public class BlankTextView extends TextView {
 
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
-        super.onDraw(canvas);
+        //super.onDraw(canvas);
 
         setup();
-        int sc = canvas.saveLayer(mRect.left, mRect.top, mRect.right, mRect.bottom, null,
+        int sc = canvas.saveLayer(mRectF.left, mRectF.top, mRectF.right, mRectF.bottom, null,
                 Canvas.MATRIX_SAVE_FLAG |
                         Canvas.CLIP_SAVE_FLAG |
                         Canvas.HAS_ALPHA_LAYER_SAVE_FLAG |

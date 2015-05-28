@@ -29,7 +29,7 @@ public class MainActivity extends ActionBarActivity {
 
         mBlankLayout.setBackground(new BlankTextDrawable());
         mBlankText.setText("wenhao");
-        mBlankText.setBlankBackgroundColor(Color.YELLOW);
+        mBlankText.setBlankBackgroundColor(0xff9966cc);
         mBlankText.setCornerSize(20);
     }
 }

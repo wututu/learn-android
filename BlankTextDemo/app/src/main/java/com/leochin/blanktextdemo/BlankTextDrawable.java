@@ -35,7 +35,6 @@ public class BlankTextDrawable extends Drawable {
     @Override
     protected void onBoundsChange(Rect bounds) {
         super.onBoundsChange(bounds);
-
         mRect.set(0, 0, bounds.width(), bounds.height());
 
         mBackgroundBitmap = makeBackground();
@@ -43,7 +42,6 @@ public class BlankTextDrawable extends Drawable {
     }
 
     private Bitmap makeBackground() {
-
         int width = (int) mRect.width();
         int height = (int) mRect.height();
 
@@ -76,7 +74,6 @@ public class BlankTextDrawable extends Drawable {
 
     @Override
     public void draw(Canvas canvas) {
-
         int sc = canvas.saveLayer(mRect.left, mRect.top, mRect.right, mRect.bottom, null,
                 Canvas.MATRIX_SAVE_FLAG |
                         Canvas.CLIP_SAVE_FLAG |

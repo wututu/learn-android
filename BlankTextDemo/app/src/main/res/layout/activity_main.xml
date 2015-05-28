@@ -8,7 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/background"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop" />
+
+    <LinearLayout
+        android:id="@+id/blank_layout"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_centerInParent="true"
+        android:orientation="vertical" />
 
     <com.leochin.blanktextdemo.BlankTextView
         android:id="@+id/blank_text"
@@ -16,14 +23,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:textSize="20sp"
-        android:layout_centerInParent="true"/>
-
-    <LinearLayout
-        android:id="@+id/blank_layout"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical" />
-
+        android:layout_below="@id/blank_layout"
+        android:layout_marginTop="10dp" />
 </RelativeLayout>
