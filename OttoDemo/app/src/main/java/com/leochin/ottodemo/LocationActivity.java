@@ -18,64 +18,49 @@ package com.leochin.ottodemo;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.squareup.otto.Produce;
+import com.squareup.otto.Subscribe;
 
 import java.util.Random;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
 
 import static android.view.View.OnClickListener;
 
 public class LocationActivity extends FragmentActivity {
-  public static final float DEFAULT_LAT = 40.440866f;
-  public static final float DEFAULT_LON = -79.994085f;
-  private static final float OFFSET = 0.1f;
-  private static final Random RANDOM = new Random();
 
-  private static float lastLatitude = DEFAULT_LAT;
-  private static float lastLongitude = DEFAULT_LON;
+    @InjectView(R.id.jump_location) Button jumpButton;
+    @InjectView(R.id.show_location) TextView showTextView;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.location_history);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        BusProvider.getInstance().register(this);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.location_history);
+        ButterKnife.inject(this);
+    }
 
-    findViewById(R.id.clear_location).setOnClickListener(new OnClickListener() {
-      @Override public void onClick(View v) {
-        // Tell everyone to clear their location history.
-        BusProvider.getInstance().post(new LocationClearEvent());
+    @Override
+    protected void onDestroy() {
+        BusProvider.getInstance().unregister(this);
+        super.onDestroy();
+    }
 
-        // Post new location event for the default location.
-        lastLatitude = DEFAULT_LAT;
-        lastLongitude = DEFAULT_LON;
-        BusProvider.getInstance().post(produceLocationEvent());
-      }
-    });
+    @OnClick(R.id.jump_location)
+    public void onJumpActivity(View view) {
+        OtherActivity.launch(this);
+    }
 
-    findViewById(R.id.move_location).setOnClickListener(new OnClickListener() {
-      @Override public void onClick(View v) {
-        lastLatitude += (RANDOM.nextFloat() * OFFSET * 2) - OFFSET;
-        lastLongitude += (RANDOM.nextFloat() * OFFSET * 2) - OFFSET;
-        BusProvider.getInstance().post(produceLocationEvent());
-      }
-    });
-  }
-
-  @Override protected void onResume() {
-    super.onResume();
-
-    // Register ourselves so that we can provide the initial value.
-    BusProvider.getInstance().register(this);
-  }
-
-  @Override protected void onPause() {
-    super.onPause();
-
-    // Always unregister when an object no longer should be on the bus.
-    BusProvider.getInstance().unregister(this);
-  }
-
-  @Produce public LocationChangedEvent produceLocationEvent() {
-    // Provide an initial value for location based on the last known position.
-    return new LocationChangedEvent(lastLatitude, lastLongitude);
-  }
+    @Subscribe
+    public void onTextShow(Bundle bundle) {
+        int count = bundle.getInt("count");
+        showTextView.setText(count+"");
+    }
 }
