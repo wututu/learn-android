@@ -9,6 +9,12 @@
         android:layout_height="wrap_content"
         android:text="Hello Android"
         android:textColor="@android:color/white"
-        android:layout_centerInParent="true"/>
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello Gradle"
+        android:textColor="@android:color/white"/>
 
 </RelativeLayout>
