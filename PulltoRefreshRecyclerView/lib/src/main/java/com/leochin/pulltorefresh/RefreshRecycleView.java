@@ -1,8 +1,6 @@
-package com.leochin.pulltorefreshrecyclerview.ui;
+package com.leochin.pulltorefresh;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,12 +9,8 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
-
-import com.leochin.pulltorefreshrecyclerview.R;
 
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
  * Created by wenhao on 6/22/15.
@@ -31,7 +25,7 @@ public class RefreshRecycleView extends FrameLayout {
 
     public int showLoadMoreItemNum = 3;
 
-    private UltimateViewAdapter mAdapter;
+    private RefreshViewAdapter mAdapter;
 
     private int mVisibleItemCount = 0;
     private int mTotalItemCount = 0;
@@ -64,14 +58,14 @@ public class RefreshRecycleView extends FrameLayout {
 
     protected void initViews() {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.custom_recycler_view_layout, this);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.ultimate_list);
+        View view = inflater.inflate(R.layout.recycler_view_layout, this);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_list);
 
         setDefaultScrollListener();
     }
 
     public void setCustomSwipeToRefresh() {
-        mPtrFrameLayout = (PtrClassicFrameLayout) findViewById(R.id.store_house_ptr_frame);
+        mPtrFrameLayout = (PtrClassicFrameLayout) findViewById(R.id.recyclerview_ptr_frame);
         mPtrFrameLayout.setResistance(1.7f);
         mPtrFrameLayout.setRatioOfHeaderHeightToRefresh(1.2f);
         mPtrFrameLayout.setDurationToClose(200);
@@ -193,7 +187,7 @@ public class RefreshRecycleView extends FrameLayout {
                     .inflate(R.layout.custom_bottom_progressbar, null));
     }
 
-    public void setAdapter(UltimateViewAdapter adapter) {
+    public void setAdapter(RefreshViewAdapter adapter) {
         mAdapter = adapter;
         mRecyclerView.setAdapter(mAdapter);
 

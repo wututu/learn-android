@@ -39,13 +39,6 @@ public class OtherActivity extends AppCompatActivity {
         LinearLayoutManager lm = new LinearLayoutManager(this);
         lm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(lm);
-
-        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(lm) {
-            @Override
-            public void onLoadMore(int itemsCount, int maxLastVisiblePosition) {
-                Toast.makeText(OtherActivity.this, "Hi...", Toast.LENGTH_SHORT).show();
-            }
-        });
         recyclerView.setAdapter(adapter);
 
         initClassicFrameLayout();

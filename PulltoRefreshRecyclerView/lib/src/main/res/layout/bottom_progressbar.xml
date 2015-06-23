@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.leochin.pulltorefresh.RefreshRecycleView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/custom_ultimate_recycler_view" />
-
+    <ProgressBar
+        android:id="@+id/bottom_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

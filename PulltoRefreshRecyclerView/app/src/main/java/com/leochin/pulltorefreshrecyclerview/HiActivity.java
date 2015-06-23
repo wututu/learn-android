@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.leochin.pulltorefreshrecyclerview.ui.RefreshRecycleView;
-import com.leochin.pulltorefreshrecyclerview.ui.UltimateRecyclerviewViewHolder;
-import com.leochin.pulltorefreshrecyclerview.ui.UltimateViewAdapter;
+import com.leochin.pulltorefresh.RefreshRecycleView;
+import com.leochin.pulltorefresh.RefreshRecyclerviewViewHolder;
+import com.leochin.pulltorefresh.RefreshViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +29,6 @@ import in.srain.cube.views.ptr.PtrHandler;
 public class HiActivity extends AppCompatActivity {
 
     private RefreshRecycleView recyclerView;
-//    private PtrClassicFrameLayout mPtrFrame;
-
     private HiAdapter adapter;
 
     @Override
@@ -51,8 +49,8 @@ public class HiActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(lm);
         recyclerView.setAdapter(adapter);
         recyclerView.enableLoadmore();
-        adapter.setCustomLoadMoreView(LayoutInflater.from(this)
-                .inflate(R.layout.custom_bottom_progressbar, null));
+//        adapter.setCustomLoadMoreView(LayoutInflater.from(this)
+//                .inflate(R.layout.custom_bottom_progressbar, null));
 
         recyclerView.setOnLoadMoreListener(new RefreshRecycleView.OnLoadMoreListener() {
             @Override
@@ -108,7 +106,7 @@ public class HiActivity extends AppCompatActivity {
         }, 100);
     }
 
-    public class HiViewHolder extends UltimateRecyclerviewViewHolder {
+    public class HiViewHolder extends RefreshRecyclerviewViewHolder {
         public TextView mTextView;
 
         public HiViewHolder(TextView v) {
@@ -117,7 +115,7 @@ public class HiActivity extends AppCompatActivity {
         }
     }
 
-    public class HiAdapter extends UltimateViewAdapter {
+    public class HiAdapter extends RefreshViewAdapter {
         private List<String> stringList;
 
         public HiAdapter(List<String> stringList) {
@@ -125,7 +123,7 @@ public class HiActivity extends AppCompatActivity {
         }
 
         @Override
-        public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
+        public RefreshRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
             TextView v = (TextView) LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
             HiViewHolder vh = new HiViewHolder(v);
             return vh;

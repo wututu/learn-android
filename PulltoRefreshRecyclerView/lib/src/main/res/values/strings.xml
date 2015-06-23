@@ -1,7 +1,3 @@
 <resources>
     <string name="app_name">Library</string>
-
-    <string name="pull_to_refresh">pull to refresh</string>
-    <string name="refreshing">refreshing...</string>
-    <string name="release_to_refresh">release to refresh</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.leochin.pulltorefreshrecyclerview.ui;
+package com.leochin.pulltorefresh;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * An abstract adapter which can be extended for Recyclerview
  */
-public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public abstract class RefreshViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     protected View customLoadMoreView = null;
 
@@ -20,12 +20,12 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         if (viewType == VIEW_TYPES.FOOTER) {
-            RecyclerView.ViewHolder viewHolder = new UltimateRecyclerviewViewHolder(customLoadMoreView);
+            RecyclerView.ViewHolder viewHolder = new RefreshRecyclerviewViewHolder(customLoadMoreView);
             if (getAdapterItemCount() == 0)
                 viewHolder.itemView.setVisibility(View.GONE);
             return viewHolder;
         } else if (viewType == VIEW_TYPES.CHANGED_FOOTER) {
-            RecyclerView.ViewHolder viewHolder = new UltimateRecyclerviewViewHolder(customLoadMoreView);
+            RecyclerView.ViewHolder viewHolder = new RefreshRecyclerviewViewHolder(customLoadMoreView);
             if (getAdapterItemCount() == 0)
                 viewHolder.itemView.setVisibility(View.GONE);
             return viewHolder;
@@ -35,7 +35,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     }
 
 
-    public abstract UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent);
+    public abstract RefreshRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent);
 
     /**
      * Using a custom LoadMoreView
