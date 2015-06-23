@@ -205,7 +205,6 @@ public class RefreshRecycleView extends FrameLayout {
                     previousTotal = mTotalItemCount;
                 }
             }
-
         };
         mRecyclerView.addOnScrollListener(mOnScrollListener);
         if (mAdapter != null && mAdapter.getCustomLoadMoreView() == null)

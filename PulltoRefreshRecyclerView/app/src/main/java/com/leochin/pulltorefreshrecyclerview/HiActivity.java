@@ -1,6 +1,7 @@
 package com.leochin.pulltorefreshrecyclerview;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,9 @@ import com.leochin.pulltorefreshrecyclerview.ui.RefreshRecycleView;
 import com.leochin.pulltorefreshrecyclerview.ui.UltimateRecyclerviewViewHolder;
 import com.leochin.pulltorefreshrecyclerview.ui.UltimateViewAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
@@ -27,17 +31,19 @@ public class HiActivity extends AppCompatActivity {
     private RefreshRecycleView recyclerView;
 //    private PtrClassicFrameLayout mPtrFrame;
 
+    private HiAdapter adapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+        List<String> stringList = new ArrayList<>();
 
-        String[] datas = new String[50];
-        for (int i = 0; i < 50; i++) {
-            datas[i] = "it is test data " + i;
+        for (int i = 0; i < 25; i++) {
+            stringList.add("it is test data " + i);
         }
 
-        HiAdapter adapter = new HiAdapter(datas);
+        adapter = new HiAdapter(stringList);
 
         recyclerView = (RefreshRecycleView) findViewById(R.id.custom_ultimate_recycler_view);
         LinearLayoutManager lm = new LinearLayoutManager(this);
@@ -45,11 +51,26 @@ public class HiActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(lm);
         recyclerView.setAdapter(adapter);
         recyclerView.enableLoadmore();
+        adapter.setCustomLoadMoreView(LayoutInflater.from(this)
+                .inflate(R.layout.custom_bottom_progressbar, null));
 
         recyclerView.setOnLoadMoreListener(new RefreshRecycleView.OnLoadMoreListener() {
             @Override
             public void loadMore(int itemsCount, int maxLastVisiblePosition) {
                 Toast.makeText(HiActivity.this, "Hi~~", Toast.LENGTH_SHORT).show();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.insert("it is test data " + moreNum++, adapter.getAdapterItemCount());
+                        adapter.insert("it is test data " + moreNum++, adapter.getAdapterItemCount());
+                        adapter.insert("it is test data " + moreNum++, adapter.getAdapterItemCount());
+                        adapter.insert("it is test data " + moreNum++, adapter.getAdapterItemCount());
+                        adapter.insert("it is test data " + moreNum++, adapter.getAdapterItemCount());
+                        adapter.insert("it is test data " + moreNum++, adapter.getAdapterItemCount());
+                        adapter.insert("it is test data " + moreNum++, adapter.getAdapterItemCount());
+                    }
+                }, 1000);
             }
         });
 
@@ -57,9 +78,9 @@ public class HiActivity extends AppCompatActivity {
 
         initClassicFrameLayout();
     }
+    int moreNum = 100;
 
     private void initClassicFrameLayout() {
-//        mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.rotate_header_list_view_frame);
         recyclerView.mPtrFrameLayout.setLastUpdateTimeRelateObject(this);
         recyclerView.mPtrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
@@ -97,10 +118,10 @@ public class HiActivity extends AppCompatActivity {
     }
 
     public class HiAdapter extends UltimateViewAdapter {
-        private String[] mDataset;
+        private List<String> stringList;
 
-        public HiAdapter(String[] myDataset) {
-            mDataset = myDataset;
+        public HiAdapter(List<String> stringList) {
+            this.stringList = stringList;
         }
 
         @Override
@@ -112,7 +133,7 @@ public class HiActivity extends AppCompatActivity {
 
         @Override
         public int getAdapterItemCount() {
-            return mDataset.length;
+            return stringList.size();
         }
 
         @Override
@@ -123,8 +144,12 @@ public class HiActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             if(holder instanceof HiViewHolder) {
-                ((HiViewHolder)holder).mTextView.setText(mDataset[position]);
+                ((HiViewHolder)holder).mTextView.setText(stringList.get(position));
             }
+        }
+
+        public void insert(String string, int position) {
+            insert(stringList, string, position);
         }
     }
 }
