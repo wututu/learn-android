@@ -29,6 +29,24 @@ public class RefreshRecycleView extends FrameLayout {
     private OnLoadMoreListener onLoadMoreListener;
     protected RecyclerView.OnScrollListener mOnScrollListener;
 
+    public int showLoadMoreItemNum = 3;
+
+    private UltimateViewAdapter mAdapter;
+
+    private int mVisibleItemCount = 0;
+    private int mTotalItemCount = 0;
+    private int previousTotal = 0;
+    private int mFirstVisibleItem;
+
+    private int lastVisibleItemPosition;
+    protected LAYOUT_MANAGER_TYPE layoutManagerType;
+
+    public static enum LAYOUT_MANAGER_TYPE {
+        LINEAR,
+        GRID,
+        STAGGERED_GRID
+    }
+
     public RefreshRecycleView(Context context) {
         super(context);
         initViews();
@@ -75,29 +93,6 @@ public class RefreshRecycleView extends FrameLayout {
         mRecyclerView.addOnScrollListener(mOnScrollListener);
     }
 
-    /**
-     * Custom layout for the Parallax Header.
-     */
-    public static class CustomRelativeWrapper extends RelativeLayout {
-
-        private int mOffset;
-
-        public CustomRelativeWrapper(Context context) {
-            super(context);
-        }
-
-        @Override
-        protected void dispatchDraw(Canvas canvas) {
-            canvas.clipRect(new Rect(getLeft(), getTop(), getRight(), getBottom() + mOffset));
-            super.dispatchDraw(canvas);
-        }
-
-        public void setClipY(int offset) {
-            mOffset = offset;
-            invalidate();
-        }
-    }
-
     public void setLayoutManager(RecyclerView.LayoutManager manager) {
         mRecyclerView.setLayoutManager(manager);
     }
@@ -108,20 +103,6 @@ public class RefreshRecycleView extends FrameLayout {
 
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
         this.onLoadMoreListener = onLoadMoreListener;
-    }
-
-    private int mVisibleItemCount = 0;
-    private int mTotalItemCount = 0;
-    private int previousTotal = 0;
-    private int mFirstVisibleItem;
-
-    private int lastVisibleItemPosition;
-    protected LAYOUT_MANAGER_TYPE layoutManagerType;
-
-    public static enum LAYOUT_MANAGER_TYPE {
-        LINEAR,
-        GRID,
-        STAGGERED_GRID
     }
 
     private int findMax(int[] lastPositions) {
@@ -209,10 +190,8 @@ public class RefreshRecycleView extends FrameLayout {
         mRecyclerView.addOnScrollListener(mOnScrollListener);
         if (mAdapter != null && mAdapter.getCustomLoadMoreView() == null)
             mAdapter.setCustomLoadMoreView(LayoutInflater.from(getContext())
-                    .inflate(R.layout.bottom_progressbar, null));
+                    .inflate(R.layout.custom_bottom_progressbar, null));
     }
-
-    private UltimateViewAdapter mAdapter;
 
     public void setAdapter(UltimateViewAdapter adapter) {
         mAdapter = adapter;
@@ -264,10 +243,6 @@ public class RefreshRecycleView extends FrameLayout {
                         mAdapter.getCustomLoadMoreView().setVisibility(View.GONE);
                     }
                 }
-
             });
     }
-
-    public int showLoadMoreItemNum = 3;
-
 }

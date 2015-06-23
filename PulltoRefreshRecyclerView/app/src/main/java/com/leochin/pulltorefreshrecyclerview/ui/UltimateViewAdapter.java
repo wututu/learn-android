@@ -16,19 +16,6 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     protected View customLoadMoreView = null;
 
-    /**
-     * Set the header view of the adapter.
-     */
-    public void setCustomHeaderView(RefreshRecycleView.CustomRelativeWrapper customHeaderView) {
-        this.customHeaderView = customHeaderView;
-    }
-
-    public RefreshRecycleView.CustomRelativeWrapper getCustomHeaderView() {
-        return customHeaderView;
-    }
-
-    protected RefreshRecycleView.CustomRelativeWrapper customHeaderView = null;
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -37,9 +24,6 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
             if (getAdapterItemCount() == 0)
                 viewHolder.itemView.setVisibility(View.GONE);
             return viewHolder;
-        } else if (viewType == VIEW_TYPES.HEADER) {
-            if (customHeaderView != null)
-                return new UltimateRecyclerviewViewHolder(customHeaderView);
         } else if (viewType == VIEW_TYPES.CHANGED_FOOTER) {
             RecyclerView.ViewHolder viewHolder = new UltimateRecyclerviewViewHolder(customLoadMoreView);
             if (getAdapterItemCount() == 0)
@@ -86,12 +70,10 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
             } else {
                 return VIEW_TYPES.FOOTER;
             }
-
-
-        } else if (position == 0 && customHeaderView != null) {
-            return VIEW_TYPES.HEADER;
-        } else
+        } else {
             return VIEW_TYPES.NORMAL;
+        }
+
     }
 
 
@@ -103,7 +85,6 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     @Override
     public int getItemCount() {
         int headerOrFooter = 0;
-        if (customHeaderView != null) headerOrFooter++;
         if (customLoadMoreView != null) headerOrFooter++;
         return getAdapterItemCount() + headerOrFooter;
     }
@@ -137,10 +118,6 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
      * @param to
      */
     public void swapPositions(List<?> list, int from, int to) {
-        if (customHeaderView != null) {
-            from--;
-            to--;
-        }
         Collections.swap(list, from, to);
     }
 
@@ -155,7 +132,6 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
      */
     public <T> void insert(List<T> list, T object, int position) {
         list.add(position, object);
-        if (customHeaderView != null) position++;
         notifyItemInserted(position);
        // notifyDataSetChanged();
         //  notifyItemChanged(position + 1);
@@ -168,7 +144,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
      * @param position
      */
     public void remove(List<?> list, int position) {
-        list.remove(customHeaderView != null ? position - 1 : position);
+        list.remove(position);
         notifyItemRemoved(position);
     }
 
@@ -187,7 +163,6 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     protected class VIEW_TYPES {
         public static final int NORMAL = 0;
-        public static final int HEADER = 1;
         public static final int FOOTER = 2;
         public static final int CHANGED_FOOTER = 3;
     }
