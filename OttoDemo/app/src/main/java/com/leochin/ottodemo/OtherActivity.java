@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -22,7 +23,7 @@ public class OtherActivity extends Activity {
     @InjectView(R.id.other_plus_button) Button plusButton;
     @InjectView(R.id.other_back_button)Button backButton;
 
-    private int count = 0;
+    private int count = 100;
 
     public static void launch(Context context){
         Intent intent = new Intent(context, OtherActivity.class);
@@ -40,12 +41,14 @@ public class OtherActivity extends Activity {
     protected void onResume() {
         super.onResume();
         BusProvider.getInstance().register(this);
+        Log.d("leochin", "register bus...");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         BusProvider.getInstance().unregister(this);
+        Log.d("leochin", "unregister bus...");
     }
 
     @OnClick(R.id.other_back_button)
@@ -58,17 +61,27 @@ public class OtherActivity extends Activity {
         count++;
         showTextView.setText(count+"");
 
-        Bundle bundle = new Bundle();
-        bundle.putInt("count", count);
-        BusProvider.getInstance().post(bundle);
-//        BusProvider.getInstance().post(produceCount());
-    }
-
-//    @Produce
-//    public Bundle produceCount() {
 //        Bundle bundle = new Bundle();
 //        bundle.putInt("count", count);
-//        return bundle;
-//    }
+//        BusProvider.getInstance().post(bundle);
+        BusProvider.getInstance().post(produceCount());
+    }
+
+    /**
+     *
+     * 产生事件，
+     * 该方法在对象被register前即被调用，该方法必须有一个非空的返回值，参数必须为空。
+     *
+     * 除非对构造事件初始值有特殊需求，可以用该方式
+     *
+     * @return
+     */
+    @Produce
+    public Bundle produceCount() {
+        Log.d("leochin", "produceCount...");
+        Bundle bundle = new Bundle();
+        bundle.putInt("count", count);
+        return bundle;
+    }
 
 }
