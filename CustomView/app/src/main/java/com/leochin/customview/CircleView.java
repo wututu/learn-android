@@ -72,22 +72,26 @@ public class CircleView extends View {
         Log.d("wenhao", "Width = " + widthSize + ",Height = " + heightSize);
         Log.d("wenhao", "Suggest Width = " + getSuggestedMinimumWidth() + ", Height = " + getSuggestedMinimumHeight());
 
+        cx = widthSize / 2;
+        cy = heightSize / 2;
         size = Math.min(widthSize, heightSize) / 2;
-
     }
+
+    private float cx = 0;
+    private float cy = 0;
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
+        Log.d("wenhao", "onLayout..." + left + "," + top + "," + right + "," + bottom);
 
-        Log.d("wenhao", "onLayout...");
+        Log.d("wenhao", "width = " + getWidth() +", getMeasureWidth = " + getMeasuredWidth() + ", right-left = " + (right - left));
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         Log.d("wenhao", "onDraw...");
-        canvas.drawCircle(size, size, size, mPaint);
+        canvas.drawCircle(0, 0, size, mPaint);
     }
 }
