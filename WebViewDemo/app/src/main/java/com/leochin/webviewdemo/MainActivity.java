@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private void setSettings() {
         WebSettings webSettings = this.mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        WebChromeClient
         this.mWebView.setWebViewClient(new WebViewClient());
     }
 
