@@ -23,7 +23,8 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    private int REQUEST_CODE = 1;
+    private final static int REQUEST_CAPTURE_CODE = 1;
+    private final static int REQUEST_CROP_CODE = 2;
     @Bind(R.id.camera) Button mCameraButton;
 
     @Override
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 加上改参数后，onActivityResult()的intent可能返回为null
                  */
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile));
-                startActivityForResult(cameraIntent, REQUEST_CODE);
+                startActivityForResult(cameraIntent, REQUEST_CAPTURE_CODE);
             }
         }
     }
@@ -80,33 +81,37 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-            galleryAddPic(mCurrentPhotoPath);
-            Intent intent = new Intent(this, CameraActivity.class);
-            intent.putExtra("path", mCurrentPhotoPath);
-            startActivity(intent);
+        if(resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CAPTURE_CODE:
+                    cropImage(Uri.fromFile(new File(mCurrentPhotoPath)), 600, 600, REQUEST_CROP_CODE);
+                    break;
+                case REQUEST_CROP_CODE:
+                    galleryAddPic(mCurrentPhotoPath);
+                    Intent intent = new Intent(this, CameraActivity.class);
+                    intent.putExtra("path", mCurrentPhotoPath);
+                    startActivity(intent);
+                    break;
+            }
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    private void cropImage(Uri uri, int outputX,int outputY, int requestCode) {
+        Intent intent = new Intent("com.android.camera.action.CROP"); //裁剪图片
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");
+        /* 裁剪框的比例，1：1 */
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        /* 裁剪后输出图片的尺寸大小 */
+        intent.putExtra("outputX", outputX);
+        intent.putExtra("outputY", outputY);
+        intent.putExtra("scaleUpIfNeeded", true);//黑边
+        intent.putExtra("outputFormat", "JPEG");//图片格式
+        intent.putExtra("noFaceDetection", true);
+        intent.putExtra("output", uri);
+        intent.putExtra("return-data", false);
+        startActivityForResult(intent, requestCode);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }
