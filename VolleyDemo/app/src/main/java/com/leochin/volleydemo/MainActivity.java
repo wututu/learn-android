@@ -17,6 +17,7 @@ import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.leochin.volleydemo.adapter.DailyNewsAdapter;
+import com.leochin.volleydemo.model.JsonModelRequest;
 import com.leochin.volleydemo.model.NewsModel;
 
 import org.json.JSONObject;
@@ -47,14 +48,26 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         String url = Constants.ZHIHU_DAILY_BEFORE + Utils.getDateToGetUrl();
-        JsonObjectRequest newsRequest = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.d(TAG, "json = " + response.toString());
-                Gson gson = new Gson();
-                mNewsModel = gson.fromJson(response.toString(), NewsModel.class);
+//        JsonObjectRequest newsRequest = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//                Log.d(TAG, "json = " + response.toString());
+//                Gson gson = new Gson();
+//                mNewsModel = gson.fromJson(response.toString(), NewsModel.class);
+//
+//                mListView.setAdapter(new DailyNewsAdapter(MainActivity.this, mNewsModel));
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.d(TAG, error.toString());
+//            }
+//        });
 
-                mListView.setAdapter(new DailyNewsAdapter(MainActivity.this, mNewsModel));
+        JsonModelRequest<NewsModel> newsRequest = new JsonModelRequest<>(url, NewsModel.class, new Response.Listener<NewsModel>() {
+            @Override
+            public void onResponse(NewsModel response) {
+                mListView.setAdapter(new DailyNewsAdapter(MainActivity.this, response));
             }
         }, new Response.ErrorListener() {
             @Override
