@@ -22,7 +22,8 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String DOWNLOAD_URL = "http://img.hb.aicdn.com/26762fe321fe83be62715acb4587a09019b0479519f6d-RhFTZx_fw320";
+    private static final String DOWNLOAD_URL = "http://bigfile31.mafengwo.net/M00/5D/90/wKgBs1ax2OCAFmSeAa38jyL75BA698.apk";
+    //"http://img.hb.aicdn.com/26762fe321fe83be62715acb4587a09019b0479519f6d-RhFTZx_fw320";
 
     private BroadcastReceiver mDownloadReceiver;
     private DownloadManager mDownloadManager;
