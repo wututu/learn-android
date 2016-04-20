@@ -5,15 +5,8 @@
     android:layout_height="match_parent"
     tools:context="com.leochin.scrollerdemo.MainActivity">
 
-    <com.leochin.scrollerdemo.ScrollerView
-        android:id="@+id/scroller_view"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerInParent="true"
-        android:background="@android:color/holo_red_dark" />
-
-
     <LinearLayout
+        android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -47,5 +40,19 @@
             android:layout_weight="1"
             android:text="RIGHT" />
     </LinearLayout>
+
+    <com.leochin.scrollerdemo.ScrollerView
+        android:id="@+id/scroller_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_bar" >
+
+        <View
+            android:id="@+id/square"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:background="@android:color/holo_red_dark" />
+    </com.leochin.scrollerdemo.ScrollerView>
 
 </RelativeLayout>
