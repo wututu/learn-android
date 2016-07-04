@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonNull;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,9 +17,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mTextView = (TextView) findViewById(R.id.textview);
 
-        User user = new User("leochin", 18);
         Gson gson = new Gson();
         StringBuilder builder = new StringBuilder();
+        User user = new User("leochin", 18);
 
         String json = gson.toJson(user);
         builder.append(String.format("%s\n", json));
@@ -26,7 +27,10 @@ public class MainActivity extends AppCompatActivity {
 
         User leo = gson.fromJson(json, User.class);
         leo.age = 21;
-        builder.append(leo.toString());
+        builder.append(String.format("%s\n", leo.toString()));
+        mTextView.setText(builder.toString());
+
+        builder.append(JsonNull.INSTANCE.toString());
         mTextView.setText(builder.toString());
     }
 }
