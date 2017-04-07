@@ -2,3 +2,16 @@
 ===
 
 相关技术点：Activity生命周期、Activity启动模式
+
+
+Activity的onNewIntent()方法是对Activity常用生命周期的补充。
+主要是解决非重新创建Activity时数据传递的问题。
+
+在启动Activity时我们可以通过Intent携带数据传递到该Activity，我们可以在onCreate中通过getIntent()方法获取Intent中的数据。
+
+但是当Activity的launchMode不为standard时，比如launchMode为singleTop，并且该Activity在栈顶。当我们再次启动该Activity时不会走onCreate方法来重新创建Activity，而是直接的复用当前Activity。那么作为开发者我们希望重新传递一些参数或者希望区分该Activity是新建还是复用的，就需要使用到onNewIntent()方法，设计该方法的目的也是为了解决这个问题。
+
+所以在launchMode为singleTop、singleTask、singleInstance时复用Activity都会调用onNewIntent()方法。
+
+测试环境：
+- Nexus 5X 7.0

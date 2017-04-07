@@ -19,7 +19,7 @@
 
         <activity
             android:name=".NewIntentActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>
